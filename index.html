@@ -1,13 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Charity Water Game</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tide of Hope</title>
+
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <h1>Welcome to the Charity Water Game Prototype</h1>
-    <script src="script.js"></script>
+
+  <main class="game-shell">
+
+    <!-- HEADER -->
+    <header class="top-header">
+
+      <div class="brand">
+        <img
+          src="img/cw_logo_horizontal.png"
+          alt="charity: water logo"
+        >
+      </div>
+
+      <h1>TIDE OF HOPE</h1>
+
+      <div class="top-stats">
+        <span>
+          Score:
+          <strong id="score">0</strong>
+        </span>
+
+        <span>
+          Time:
+          <strong id="timer">60</strong>s
+        </span>
+      </div>
+
+    </header>
+
+
+    <!-- BATTLE SCENE -->
+    <section class="battle-scene">
+
+      <!-- PLAYER HUD -->
+      <div class="player-hud">
+
+        <div class="portrait-box">
+          <img
+            src="img/water_guardian.png"
+            alt="Water Guardian portrait"
+            class="portrait-image"
+          >
+        </div>
+
+
+        <div class="hud-bars">
+
+          <div class="hud-row">
+            <span>HP</span>
+            <span id="playerHpText">100 / 100</span>
+          </div>
+
+          <div class="hud-bar">
+            <div
+              id="playerHpBar"
+              class="fill hp-fill">
+            </div>
+          </div>
+
+
+          <div class="hud-row">
+            <span>SP</span>
+            <span id="playerSpText">30 / 30</span>
+          </div>
+
+          <div class="hud-bar">
+            <div
+              id="playerSpBar"
+              class="fill sp-fill">
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ENEMY HUD -->
+      <div class="enemy-hud">
+
+        <div class="hud-row">
+          <span>POLLUTION</span>
+          <span id="enemyHpText">100 / 100</span>
+        </div>
+
+        <div class="hud-bar">
+          <div
+            id="enemyHpBar"
+            class="fill pollution-fill">
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- HERO -->
+      <div class="hero character-slot">
+
+        <img
+          src="img/water_guardian.png"
+          alt="Water Guardian"
+          class="hero-image"
+        >
+
+      </div>
+
+
+      <!-- MONSTER -->
+      <div class="monster character-slot">
+
+        <img
+          src="img/pollution_monster.png"
+          alt="Pollution Monster"
+          class="monster-image"
+        >
+
+      </div>
+
+    </section>
+
+
+    <!-- DIALOGUE BOX -->
+    <section class="dialogue-box">
+
+      <p id="message">
+        A Pollution Monster is contaminating the water!
+        Choose an action.
+      </p>
+
+      <span class="dialogue-arrow">
+        ▼
+      </span>
+
+    </section>
+
+
+    <!-- ACTION BUTTONS -->
+    <section class="action-area">
+
+
+      <button
+        id="purifyBtn"
+        class="action-card">
+
+        <div class="action-icon">
+          ◉
+        </div>
+
+        <div>
+          <span class="action-title">
+            PURIFY
+          </span>
+
+          <span class="action-description">
+            -20 Pollution • Costs 10 SP
+          </span>
+        </div>
+
+      </button>
+
+
+      <button
+        id="filterBtn"
+        class="action-card">
+
+        <div class="action-icon">
+          ▽
+        </div>
+
+        <div>
+          <span class="action-title">
+            FILTER
+          </span>
+
+          <span class="action-description">
+            Reduce next attack • +5 SP
+          </span>
+        </div>
+
+      </button>
+
+
+      <button
+        id="recoverBtn"
+        class="action-card">
+
+        <div class="action-icon">
+          ◒
+        </div>
+
+        <div>
+          <span class="action-title">
+            RECOVER
+          </span>
+
+          <span class="action-description">
+            Restore 15 HP
+          </span>
+        </div>
+
+      </button>
+
+
+      <button
+        id="resetBtn"
+        class="reset-card">
+
+        RESET BATTLE
+
+      </button>
+
+    </section>
+
+  </main>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script src="script.js"></script>
+
 </body>
 </html>
