@@ -1,25 +1,32 @@
+/* ===============================
+   GENERAL
+================================ */
+
 * {
   box-sizing: border-box;
 }
+
 
 body {
   margin: 0;
 
   background: #081018;
 
-  font-family: Arial, Helvetica, sans-serif;
-
   color: white;
+
+  font-family:
+    Arial,
+    "Helvetica Neue",
+    Helvetica,
+    sans-serif;
 }
 
-button {
+
+button,
+a {
   font-family: inherit;
 }
 
-
-/* ---------------------
-   MAIN GAME
---------------------- */
 
 .game-shell {
   width: 100%;
@@ -36,9 +43,10 @@ button {
 }
 
 
-/* ---------------------
+
+/* ===============================
    HEADER
---------------------- */
+================================ */
 
 .top-header {
   min-height: 95px;
@@ -50,11 +58,13 @@ button {
 
   align-items: center;
 
-  padding: 15px 35px;
+  padding:
+    15px 35px;
 
   background: #05090d;
 
-  border-bottom: 2px solid #ffc907;
+  border-bottom:
+    2px solid #ffc907;
 }
 
 
@@ -69,6 +79,11 @@ button {
   margin: 0;
 
   text-align: center;
+
+  font-family:
+    "Arial Black",
+    Arial,
+    sans-serif;
 
   font-size: 48px;
 
@@ -102,9 +117,10 @@ button {
 }
 
 
-/* ---------------------
+
+/* ===============================
    BATTLE SCENE
---------------------- */
+================================ */
 
 .battle-scene {
   position: relative;
@@ -115,6 +131,9 @@ button {
 
   border-bottom:
     2px solid #ffc907;
+
+  transition:
+    background 1.2s ease;
 
 
   background:
@@ -141,7 +160,8 @@ button {
 }
 
 
-/* INDUSTRIAL SHAPES */
+
+/* INDUSTRIAL BACKGROUND */
 
 .battle-scene::before {
   content: "";
@@ -156,6 +176,9 @@ button {
   height: 190px;
 
   opacity: .7;
+
+  transition:
+    opacity 1s ease;
 
 
   background:
@@ -192,7 +215,8 @@ button {
 }
 
 
-/* WATER FOREGROUND */
+
+/* WATER */
 
 .battle-scene::after {
   content: "";
@@ -206,6 +230,11 @@ button {
 
   height: 180px;
 
+  opacity: .95;
+
+  transition:
+    background 1.2s ease;
+
 
   background:
 
@@ -215,15 +244,62 @@ button {
       #123857 10px 15px,
       #0b2236 15px 25px
     );
-
-
-  opacity: .95;
 }
 
 
-/* ---------------------
+
+/* ===============================
+   CLEAN WATER VICTORY SCENE
+================================ */
+
+.battle-scene.victory-scene {
+
+  background:
+
+    radial-gradient(
+      circle at 53% 20%,
+      #fff3a4 0,
+      #ffd95c 11%,
+      transparent 11.4%
+    ),
+
+    linear-gradient(
+      rgba(99, 210, 255, .15),
+      rgba(15, 112, 170, .15)
+    ),
+
+    linear-gradient(
+      to bottom,
+      #4baed6 0%,
+      #79d5ef 43%,
+      #48a7cc 44%,
+      #1678a8 100%
+    );
+}
+
+
+.battle-scene.victory-scene::before {
+  opacity: .35;
+}
+
+
+.battle-scene.victory-scene::after {
+
+  background:
+
+    repeating-linear-gradient(
+      175deg,
+      #167daf 0 10px,
+      #31a8d3 10px 15px,
+      #66d8ed 15px 25px
+    );
+}
+
+
+
+/* ===============================
    HUD
---------------------- */
+================================ */
 
 .player-hud,
 .enemy-hud {
@@ -243,7 +319,8 @@ button {
 }
 
 
-/* PLAYER HUD */
+
+/* PLAYER */
 
 .player-hud {
   top: 25px;
@@ -259,8 +336,6 @@ button {
   padding: 10px;
 }
 
-
-/* PLAYER PORTRAIT */
 
 .portrait-box {
   width: 115px;
@@ -293,7 +368,8 @@ button {
 }
 
 
-/* ENEMY HUD */
+
+/* ENEMY */
 
 .enemy-hud {
   top: 25px;
@@ -306,8 +382,6 @@ button {
     12px 18px;
 }
 
-
-/* HUD TEXT */
 
 .hud-row {
   display: flex;
@@ -323,8 +397,6 @@ button {
   font-size: 18px;
 }
 
-
-/* HEALTH BARS */
 
 .hud-bar {
   width: 100%;
@@ -371,9 +443,10 @@ button {
 }
 
 
-/* ---------------------
+
+/* ===============================
    CHARACTERS
---------------------- */
+================================ */
 
 .character-slot {
   position: absolute;
@@ -386,6 +459,7 @@ button {
 
   align-items: flex-end;
 }
+
 
 
 /* HERO */
@@ -408,14 +482,11 @@ button {
 
   object-fit: contain;
 
-
   filter:
-
     drop-shadow(
       0 12px 8px
       rgba(0, 0, 0, .7)
     );
-
 
   animation:
     heroIdle
@@ -423,6 +494,7 @@ button {
     ease-in-out
     infinite;
 }
+
 
 
 /* MONSTER */
@@ -445,14 +517,11 @@ button {
 
   object-fit: contain;
 
-
   filter:
-
     drop-shadow(
       0 12px 8px
       rgba(0, 0, 0, .8)
     );
-
 
   animation:
     monsterIdle
@@ -462,7 +531,8 @@ button {
 }
 
 
-/* CHARACTER MOVEMENT */
+
+/* IDLE MOVEMENT */
 
 @keyframes heroIdle {
 
@@ -498,9 +568,10 @@ button {
 }
 
 
-/* ---------------------
-   DIALOGUE BOX
---------------------- */
+
+/* ===============================
+   DIALOGUE
+================================ */
 
 .dialogue-box {
   position: relative;
@@ -513,24 +584,14 @@ button {
 
   min-height: 95px;
 
-
   background:
     rgba(3, 8, 12, .98);
-
 
   border:
     4px solid #ffc907;
 
-
   border-radius:
     15px;
-
-
-  box-shadow:
-
-    inset
-    0 0 12px
-    rgba(255, 255, 255, .03);
 }
 
 
@@ -558,9 +619,10 @@ button {
 }
 
 
-/* ---------------------
+
+/* ===============================
    ACTION BUTTONS
---------------------- */
+================================ */
 
 .action-area {
   display: grid;
@@ -590,14 +652,11 @@ button {
 
   padding: 15px;
 
-
   border:
     4px solid #111;
 
-
   border-radius:
     16px;
-
 
   background:
 
@@ -607,20 +666,15 @@ button {
       #ffbd10
     );
 
-
   color: black;
 
   cursor: pointer;
 
-
   box-shadow:
-
     0 0 0
     3px #ffc907;
 
-
   transition:
-
     transform .15s,
     filter .15s;
 }
@@ -652,8 +706,6 @@ button {
 }
 
 
-/* BUTTON ICON */
-
 .action-icon {
   font-size: 52px;
 
@@ -661,20 +713,21 @@ button {
 }
 
 
-/* BUTTON TITLE */
-
 .action-title {
   display: block;
 
   text-align: left;
+
+  font-family:
+    "Arial Black",
+    Arial,
+    sans-serif;
 
   font-size: 28px;
 
   font-weight: 900;
 }
 
-
-/* BUTTON DESCRIPTION */
 
 .action-description {
   display: block;
@@ -689,9 +742,8 @@ button {
 }
 
 
-/* ---------------------
-   RESET BUTTON
---------------------- */
+
+/* RESET */
 
 .reset-card {
   min-height: 100px;
@@ -725,14 +777,203 @@ button {
 }
 
 
-/* ---------------------
+
+/* ===============================
+   MILESTONE POPUPS
+================================ */
+
+.milestone-toast {
+  position: fixed;
+
+  z-index: 9999;
+
+  top: 120px;
+
+  left: 50%;
+
+  transform:
+    translateX(-50%);
+
+  min-width: 300px;
+
+  max-width: 90%;
+
+  padding:
+    18px 28px;
+
+  text-align: center;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #ffd73b,
+      #ffbd10
+    );
+
+  color: #05090d;
+
+  border:
+    4px solid #05090d;
+
+  border-radius: 14px;
+
+  font-size: 22px;
+
+  font-family:
+    "Arial Black",
+    Arial,
+    sans-serif;
+
+  box-shadow:
+    0 8px 30px
+    rgba(0, 0, 0, .5);
+
+  animation:
+    milestoneIn
+    .35s ease;
+}
+
+
+@keyframes milestoneIn {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateX(-50%)
+      translateY(-25px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateX(-50%)
+      translateY(0);
+  }
+
+}
+
+
+
+/* ===============================
+   FOOTER
+================================ */
+
+.charity-footer {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 30px;
+
+  padding:
+    30px 40px;
+
+  background: #05090d;
+
+  border-top:
+    3px solid #ffc907;
+}
+
+
+.footer-text {
+  max-width: 700px;
+}
+
+
+.footer-text h2 {
+  margin:
+    0 0 8px 0;
+
+  color: #ffc907;
+
+  font-family:
+    "Arial Black",
+    Arial,
+    sans-serif;
+
+  font-size: 24px;
+}
+
+
+.footer-text p {
+  margin: 0;
+
+  color: #d7e1e8;
+
+  line-height: 1.5;
+}
+
+
+.footer-links {
+  display: flex;
+
+  gap: 12px;
+
+  flex-shrink: 0;
+}
+
+
+.footer-button {
+  display: inline-block;
+
+  padding:
+    13px 20px;
+
+  border-radius: 7px;
+
+  text-decoration: none;
+
+  font-weight: 900;
+
+  transition:
+    transform .15s,
+    filter .15s;
+}
+
+
+.footer-button:hover {
+  transform:
+    translateY(-3px);
+
+  filter:
+    brightness(1.08);
+}
+
+
+.learn-button {
+  border:
+    2px solid #ffc907;
+
+  color: #ffc907;
+
+  background: transparent;
+}
+
+
+.donate-button {
+  border:
+    2px solid #ffc907;
+
+  color: #05090d;
+
+  background: #ffc907;
+}
+
+
+
+/* ===============================
    RESPONSIVE
---------------------- */
+================================ */
 
 @media (max-width: 1000px) {
 
   .top-header {
-    grid-template-columns: 1fr;
+    grid-template-columns:
+      1fr;
 
     height: auto;
 
@@ -786,7 +1027,15 @@ button {
       1fr 1fr;
   }
 
+
+  .charity-footer {
+    flex-direction: column;
+
+    text-align: center;
+  }
+
 }
+
 
 
 @media (max-width: 700px) {
@@ -846,6 +1095,18 @@ button {
   .dialogue-box {
     margin:
       0 12px;
+  }
+
+
+  .footer-links {
+    flex-direction: column;
+
+    width: 100%;
+  }
+
+
+  .footer-button {
+    width: 100%;
   }
 
 }
