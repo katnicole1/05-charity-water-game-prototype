@@ -1,6 +1,6 @@
 // ===============================
 // TIDE OF HOPE
-// FULL GAME LOGIC
+// FINAL GAME VERSION
 // ===============================
 
 
@@ -10,6 +10,7 @@
 
 let playerHp = 100;
 let playerSp = 30;
+
 let enemyHp = 100;
 
 let score = 0;
@@ -21,29 +22,69 @@ let gameOver = false;
 let timerInterval;
 
 
+// Tracks which milestones already appeared
+
+let milestonesShown = [];
+
+
+
 // -------------------------------
-// GET HTML ELEMENTS
+// HTML ELEMENTS
 // -------------------------------
 
-const playerHpText = document.getElementById("playerHpText");
-const playerSpText = document.getElementById("playerSpText");
-const enemyHpText = document.getElementById("enemyHpText");
+const playerHpText =
+  document.getElementById("playerHpText");
 
-const playerHpBar = document.getElementById("playerHpBar");
-const playerSpBar = document.getElementById("playerSpBar");
-const enemyHpBar = document.getElementById("enemyHpBar");
+const playerSpText =
+  document.getElementById("playerSpText");
 
-const scoreEl = document.getElementById("score");
-const timerEl = document.getElementById("timer");
-const messageEl = document.getElementById("message");
+const enemyHpText =
+  document.getElementById("enemyHpText");
 
-const purifyBtn = document.getElementById("purifyBtn");
-const filterBtn = document.getElementById("filterBtn");
-const recoverBtn = document.getElementById("recoverBtn");
-const resetBtn = document.getElementById("resetBtn");
 
-const heroImage = document.querySelector(".hero-image");
-const monsterImage = document.querySelector(".monster-image");
+const playerHpBar =
+  document.getElementById("playerHpBar");
+
+const playerSpBar =
+  document.getElementById("playerSpBar");
+
+const enemyHpBar =
+  document.getElementById("enemyHpBar");
+
+
+const scoreEl =
+  document.getElementById("score");
+
+const timerEl =
+  document.getElementById("timer");
+
+const messageEl =
+  document.getElementById("message");
+
+
+const purifyBtn =
+  document.getElementById("purifyBtn");
+
+const filterBtn =
+  document.getElementById("filterBtn");
+
+const recoverBtn =
+  document.getElementById("recoverBtn");
+
+const resetBtn =
+  document.getElementById("resetBtn");
+
+
+const heroImage =
+  document.querySelector(".hero-image");
+
+const monsterImage =
+  document.querySelector(".monster-image");
+
+
+const battleScene =
+  document.getElementById("battleScene");
+
 
 
 // -------------------------------
@@ -52,21 +93,38 @@ const monsterImage = document.querySelector(".monster-image");
 
 function updateDisplay() {
 
-  playerHpText.textContent = `${playerHp} / 100`;
-  playerSpText.textContent = `${playerSp} / 30`;
-  enemyHpText.textContent = `${enemyHp} / 100`;
+  playerHpText.textContent =
+    `${playerHp} / 100`;
 
-  playerHpBar.style.width = `${playerHp}%`;
+
+  playerSpText.textContent =
+    `${playerSp} / 30`;
+
+
+  enemyHpText.textContent =
+    `${enemyHp} / 100`;
+
+
+  playerHpBar.style.width =
+    `${playerHp}%`;
+
 
   playerSpBar.style.width =
     `${(playerSp / 30) * 100}%`;
 
+
   enemyHpBar.style.width =
     `${enemyHp}%`;
 
-  scoreEl.textContent = score;
-  timerEl.textContent = timeLeft;
+
+  scoreEl.textContent =
+    score;
+
+
+  timerEl.textContent =
+    timeLeft;
 }
+
 
 
 // -------------------------------
@@ -74,63 +132,181 @@ function updateDisplay() {
 // -------------------------------
 
 function setMessage(text) {
-  messageEl.textContent = text;
+
+  messageEl.textContent =
+    text;
+
 }
 
 
+
 // -------------------------------
-// ENABLE / DISABLE BUTTONS
+// BUTTONS
 // -------------------------------
 
 function disableButtons() {
+
   purifyBtn.disabled = true;
+
   filterBtn.disabled = true;
+
   recoverBtn.disabled = true;
+
 }
 
 
 function enableButtons() {
+
   purifyBtn.disabled = false;
+
   filterBtn.disabled = false;
+
   recoverBtn.disabled = false;
+
 }
 
 
+
+// ===============================
+// MILESTONE SYSTEM
+// ===============================
+
+const milestones = [
+
+  {
+    pollution: 60,
+    message:
+      "Great progress! The water is starting to clear!"
+  },
+
+  {
+    pollution: 40,
+    message:
+      "More than halfway there! Keep purifying!"
+  },
+
+  {
+    pollution: 20,
+    message:
+      "Almost clean! One final push!"
+  }
+
+];
+
+
+
+function checkMilestones() {
+
+  milestones.forEach(
+    function (milestone) {
+
+      if (
+        enemyHp <= milestone.pollution &&
+        !milestonesShown.includes(
+          milestone.pollution
+        )
+      ) {
+
+        milestonesShown.push(
+          milestone.pollution
+        );
+
+
+        showMilestone(
+          milestone.message
+        );
+
+      }
+
+    }
+  );
+
+}
+
+
+
 // -------------------------------
-// HERO ATTACK ANIMATION
+// CREATE MILESTONE POPUP
 // -------------------------------
+
+function showMilestone(text) {
+
+  const milestone =
+    document.createElement("div");
+
+
+  milestone.classList.add(
+    "milestone-toast"
+  );
+
+
+  milestone.textContent =
+    text;
+
+
+  document.body.appendChild(
+    milestone
+  );
+
+
+  setTimeout(
+    function () {
+
+      milestone.remove();
+
+    },
+    2200
+  );
+
+}
+
+
+
+// ===============================
+// ANIMATIONS
+// ===============================
+
+
+// HERO ATTACK
 
 function animateHeroAttack() {
 
   heroImage.animate(
     [
+
       {
-        transform: "translateX(0)"
+        transform:
+          "translateX(0)"
       },
 
       {
-        transform: "translateX(45px)"
+        transform:
+          "translateX(45px)"
       },
 
       {
-        transform: "translateX(0)"
+        transform:
+          "translateX(0)"
       }
+
     ],
+
     {
       duration: 350
     }
   );
+
 }
 
 
-// -------------------------------
-// HERO BLUE GLOW
-// -------------------------------
+
+// HERO PURIFY GLOW
 
 function animateHeroGlow() {
 
   heroImage.animate(
     [
+
       {
         filter:
           "drop-shadow(0 12px 8px rgba(0,0,0,.7))"
@@ -145,57 +321,68 @@ function animateHeroGlow() {
         filter:
           "drop-shadow(0 12px 8px rgba(0,0,0,.7))"
       }
+
     ],
+
     {
       duration: 500
     }
   );
+
 }
 
 
-// -------------------------------
-// MONSTER HIT SHAKE
-// -------------------------------
+
+// MONSTER SHAKE
 
 function animateMonsterHit() {
 
   monsterImage.animate(
     [
+
       {
-        transform: "translateX(0)"
+        transform:
+          "translateX(0)"
       },
 
       {
-        transform: "translateX(15px)"
+        transform:
+          "translateX(15px)"
       },
 
       {
-        transform: "translateX(-15px)"
+        transform:
+          "translateX(-15px)"
       },
 
       {
-        transform: "translateX(10px)"
+        transform:
+          "translateX(10px)"
       },
 
       {
-        transform: "translateX(0)"
+        transform:
+          "translateX(0)"
       }
+
     ],
+
     {
       duration: 400
     }
   );
+
 }
 
 
-// -------------------------------
+
 // MONSTER RED FLASH
-// -------------------------------
 
 function animateMonsterRedFlash() {
 
   monsterImage.animate(
     [
+
       {
         filter:
           "drop-shadow(0 12px 8px rgba(0,0,0,.8))"
@@ -210,57 +397,63 @@ function animateMonsterRedFlash() {
         filter:
           "drop-shadow(0 12px 8px rgba(0,0,0,.8))"
       }
+
     ],
+
     {
       duration: 350
     }
   );
+
 }
 
 
-// -------------------------------
-// HERO DAMAGE FLASH
-// -------------------------------
+
+// HERO DAMAGE
 
 function animateHeroHit() {
 
   heroImage.animate(
     [
-      {
-        opacity: 1
-      },
-
-      {
-        opacity: 0.3
-      },
 
       {
         opacity: 1
       },
 
       {
-        opacity: 0.3
+        opacity: .3
+      },
+
+      {
+        opacity: 1
+      },
+
+      {
+        opacity: .3
       },
 
       {
         opacity: 1
       }
+
     ],
+
     {
       duration: 450
     }
   );
+
 }
 
 
-// -------------------------------
-// FILTER EFFECT
-// -------------------------------
+
+// FILTER GLOW
 
 function animateFilter() {
 
   heroImage.animate(
     [
+
       {
         filter:
           "drop-shadow(0 12px 8px rgba(0,0,0,.7))"
@@ -275,22 +468,25 @@ function animateFilter() {
         filter:
           "drop-shadow(0 12px 8px rgba(0,0,0,.7))"
       }
+
     ],
+
     {
       duration: 700
     }
   );
+
 }
 
 
-// -------------------------------
-// RECOVER EFFECT
-// -------------------------------
+
+// RECOVER GLOW
 
 function animateRecover() {
 
   heroImage.animate(
     [
+
       {
         filter:
           "drop-shadow(0 12px 8px rgba(0,0,0,.7))"
@@ -305,28 +501,39 @@ function animateRecover() {
         filter:
           "drop-shadow(0 12px 8px rgba(0,0,0,.7))"
       }
+
     ],
+
     {
       duration: 650
     }
   );
+
 }
 
 
-// -------------------------------
+
+// ===============================
 // ENEMY ATTACK
-// -------------------------------
+// ===============================
 
 function enemyAttack() {
 
   if (gameOver) {
+
     return;
+
   }
 
 
   let damage =
-    Math.floor(Math.random() * 6) + 10;
+    Math.floor(
+      Math.random() * 6
+    ) + 10;
 
+
+
+  // FILTER REDUCES DAMAGE
 
   if (shielded) {
 
@@ -334,11 +541,15 @@ function enemyAttack() {
 
     shielded = false;
 
+
     setMessage(
       `Your FILTER protected you! You only took ${damage} damage.`
     );
 
-  } else {
+  }
+
+
+  else {
 
     setMessage(
       `The Pollution Monster attacks! You take ${damage} damage.`
@@ -347,92 +558,144 @@ function enemyAttack() {
   }
 
 
+
   playerHp -= damage;
 
 
   if (playerHp < 0) {
+
     playerHp = 0;
+
   }
 
 
   animateHeroHit();
 
+
   updateDisplay();
 
+
   checkGameStatus();
+
 }
 
 
-// -------------------------------
-// WIN CONFETTI
-// -------------------------------
+
+// ===============================
+// WIN CELEBRATION
+// ===============================
 
 function celebrateWin() {
 
-  if (typeof confetti !== "function") {
+  if (
+    typeof confetti !== "function"
+  ) {
+
     return;
+
   }
 
 
   confetti({
+
     particleCount: 120,
+
     spread: 90,
+
     origin: {
-      y: 0.6
+      y: .6
     }
+
   });
 
 
-  setTimeout(function () {
 
-    confetti({
-      particleCount: 80,
-      spread: 120,
-      origin: {
-        x: 0.25,
-        y: 0.6
-      }
-    });
+  setTimeout(
+    function () {
 
-  }, 250);
+      confetti({
+
+        particleCount: 80,
+
+        spread: 120,
+
+        origin: {
+
+          x: .25,
+
+          y: .6
+
+        }
+
+      });
+
+    },
+
+    250
+  );
 
 
-  setTimeout(function () {
 
-    confetti({
-      particleCount: 80,
-      spread: 120,
-      origin: {
-        x: 0.75,
-        y: 0.6
-      }
-    });
+  setTimeout(
+    function () {
 
-  }, 500);
+      confetti({
+
+        particleCount: 80,
+
+        spread: 120,
+
+        origin: {
+
+          x: .75,
+
+          y: .6
+
+        }
+
+      });
+
+    },
+
+    500
+  );
+
 }
 
 
-// -------------------------------
-// CHECK GAME STATUS
-// -------------------------------
+
+// ===============================
+// CHECK WIN / LOSS
+// ===============================
 
 function checkGameStatus() {
 
 
-  // PLAYER WINS
+  // ---------------------------
+  // WIN
+  // ---------------------------
+
   if (enemyHp <= 0) {
 
     enemyHp = 0;
 
+
     score += 50;
+
 
     gameOver = true;
 
-    clearInterval(timerInterval);
+
+    clearInterval(
+      timerInterval
+    );
+
 
     updateDisplay();
 
+
     disableButtons();
+
 
 
     setMessage(
@@ -440,47 +703,80 @@ function checkGameStatus() {
     );
 
 
+
+    // Change battlefield to clean water
+
+    battleScene.classList.add(
+      "victory-scene"
+    );
+
+
+
     celebrateWin();
+
 
 
     monsterImage.animate(
       [
+
         {
           opacity: 1,
-          transform: "scale(1)"
+
+          transform:
+            "scale(1)"
         },
 
         {
-          opacity: 0.6,
-          transform: "scale(1.08)"
+          opacity: .6,
+
+          transform:
+            "scale(1.08)"
         },
 
         {
           opacity: 0,
-          transform: "scale(0.45)"
+
+          transform:
+            "scale(.45)"
         }
+
       ],
+
       {
+
         duration: 1000,
+
         fill: "forwards"
+
       }
     );
 
 
     return;
+
   }
 
 
+
+  // ---------------------------
   // PLAYER LOSES
+  // ---------------------------
+
   if (playerHp <= 0) {
 
     playerHp = 0;
 
+
     gameOver = true;
 
-    clearInterval(timerInterval);
+
+    clearInterval(
+      timerInterval
+    );
+
 
     updateDisplay();
+
 
     disableButtons();
 
@@ -491,19 +787,30 @@ function checkGameStatus() {
 
 
     return;
+
   }
 
 
-  // TIME RUNS OUT
+
+  // ---------------------------
+  // TIMER ENDS
+  // ---------------------------
+
   if (timeLeft <= 0) {
 
     timeLeft = 0;
 
+
     gameOver = true;
 
-    clearInterval(timerInterval);
+
+    clearInterval(
+      timerInterval
+    );
+
 
     updateDisplay();
+
 
     disableButtons();
 
@@ -511,42 +818,60 @@ function checkGameStatus() {
     setMessage(
       "Time's up! The water is still polluted. Press RESET BATTLE to try again."
     );
+
   }
+
 }
 
 
-// -------------------------------
-// PURIFY BUTTON
-// -------------------------------
+
+// ===============================
+// PURIFY
+// ===============================
 
 purifyBtn.addEventListener(
   "click",
+
   function () {
 
+
     if (gameOver) {
+
       return;
+
     }
+
 
 
     if (playerSp >= 10) {
 
+
       playerSp -= 10;
 
+
       enemyHp -= 20;
+
 
       score += 10;
 
 
+
       if (enemyHp < 0) {
+
         enemyHp = 0;
+
       }
 
 
+
       animateHeroAttack();
+
       animateHeroGlow();
 
       animateMonsterHit();
+
       animateMonsterRedFlash();
+
 
 
       setMessage(
@@ -554,9 +879,19 @@ purifyBtn.addEventListener(
       );
 
 
+
       updateDisplay();
 
+
+
+      // Check for score/pollution milestones
+
+      checkMilestones();
+
+
+
       checkGameStatus();
+
 
 
       if (!gameOver) {
@@ -568,7 +903,11 @@ purifyBtn.addEventListener(
 
       }
 
-    } else {
+    }
+
+
+
+    else {
 
       setMessage(
         "Not enough SP! Use FILTER to recover SP."
@@ -580,33 +919,47 @@ purifyBtn.addEventListener(
 );
 
 
-// -------------------------------
-// FILTER BUTTON
-// -------------------------------
+
+// ===============================
+// FILTER
+// ===============================
 
 filterBtn.addEventListener(
   "click",
+
   function () {
 
+
     if (gameOver) {
+
       return;
+
     }
+
 
 
     shielded = true;
 
+
+
     playerSp += 5;
 
 
+
     if (playerSp > 30) {
+
       playerSp = 30;
+
     }
+
 
 
     score += 5;
 
 
+
     animateFilter();
+
 
 
     setMessage(
@@ -614,7 +967,9 @@ filterBtn.addEventListener(
     );
 
 
+
     updateDisplay();
+
 
 
     setTimeout(
@@ -626,17 +981,23 @@ filterBtn.addEventListener(
 );
 
 
-// -------------------------------
-// RECOVER BUTTON
-// -------------------------------
+
+// ===============================
+// RECOVER
+// ===============================
 
 recoverBtn.addEventListener(
   "click",
+
   function () {
 
+
     if (gameOver) {
+
       return;
+
     }
+
 
 
     if (playerHp === 100) {
@@ -645,19 +1006,27 @@ recoverBtn.addEventListener(
         "Your HP is already full!"
       );
 
+
       return;
+
     }
+
 
 
     playerHp += 15;
 
 
+
     if (playerHp > 100) {
+
       playerHp = 100;
+
     }
 
 
+
     animateRecover();
+
 
 
     setMessage(
@@ -665,7 +1034,9 @@ recoverBtn.addEventListener(
     );
 
 
+
     updateDisplay();
+
 
 
     setTimeout(
@@ -677,98 +1048,183 @@ recoverBtn.addEventListener(
 );
 
 
-// -------------------------------
+
+// ===============================
 // TIMER
-// -------------------------------
+// ===============================
 
 function startTimer() {
 
-  clearInterval(timerInterval);
+  clearInterval(
+    timerInterval
+  );
 
 
   timerInterval =
     setInterval(
+
       function () {
 
+
         if (!gameOver) {
+
 
           timeLeft--;
 
 
+
           if (timeLeft < 0) {
+
             timeLeft = 0;
+
           }
 
 
+
           updateDisplay();
+
 
           checkGameStatus();
 
         }
 
       },
+
       1000
     );
+
 }
 
 
-// -------------------------------
-// RESET GAME
-// -------------------------------
+
+// ===============================
+// RESET
+// ===============================
 
 resetBtn.addEventListener(
   "click",
+
   resetGame
 );
 
 
+
 function resetGame() {
+
 
   playerHp = 100;
 
+
   playerSp = 30;
+
 
   enemyHp = 100;
 
+
   score = 0;
+
 
   timeLeft = 60;
 
+
   shielded = false;
 
+
   gameOver = false;
+
+
+
+  // Reset milestone tracking
+
+  milestonesShown = [];
+
+
+
+  // Remove victory background
+
+  battleScene.classList.remove(
+    "victory-scene"
+  );
+
 
 
   enableButtons();
 
 
-  // Cancel old animations
+
+  // Cancel previous animations
+
   heroImage
     .getAnimations()
-    .forEach(function (animation) {
-      animation.cancel();
-    });
+    .forEach(
+
+      function (animation) {
+
+        animation.cancel();
+
+      }
+
+    );
 
 
   monsterImage
     .getAnimations()
-    .forEach(function (animation) {
-      animation.cancel();
-    });
+    .forEach(
+
+      function (animation) {
+
+        animation.cancel();
+
+      }
+
+    );
 
 
-  // Restore character appearance
-  heroImage.style.opacity = "1";
-  heroImage.style.transform = "none";
-  heroImage.style.filter = "";
+
+  // Restore characters
+
+  heroImage.style.opacity =
+    "1";
+
+  heroImage.style.transform =
+    "none";
+
+  heroImage.style.filter =
+    "";
 
 
-  monsterImage.style.opacity = "1";
-  monsterImage.style.transform = "none";
-  monsterImage.style.filter = "";
+
+  monsterImage.style.opacity =
+    "1";
+
+  monsterImage.style.transform =
+    "none";
+
+  monsterImage.style.filter =
+    "";
+
+
+
+  // Remove any leftover milestone popup
+
+  document
+    .querySelectorAll(
+      ".milestone-toast"
+    )
+    .forEach(
+
+      function (milestone) {
+
+        milestone.remove();
+
+      }
+
+    );
+
 
 
   updateDisplay();
+
 
 
   setMessage(
@@ -776,13 +1232,16 @@ function resetGame() {
   );
 
 
+
   startTimer();
+
 }
 
 
-// -------------------------------
+
+// ===============================
 // START GAME
-// -------------------------------
+// ===============================
 
 updateDisplay();
 
